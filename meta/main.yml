@@ -3,7 +3,7 @@ dependencies: []
 
 galaxy_info:
   author: craigw
-  description: Manage site root users
+  description: Manage user password expiry
   company: "Barking Iguana Ltd"
   license: "MIT"
   min_ansible_version: 1.8
