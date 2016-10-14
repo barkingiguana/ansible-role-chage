@@ -1,0 +1,10 @@
+---
+sudo: required
+
+services: docker
+
+install:
+  - bundle install
+
+script:
+  - bundle exec kitchen test

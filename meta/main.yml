@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: craigw
+  description: Manage site root users
+  company: "Barking Iguana Ltd"
+  license: "MIT"
+  min_ansible_version: 1.8
+  platforms:
+    - name: GenericUNIX
+      versions:
+        - all
+        - any
+  galaxy_tags:
+    - system
+    - users

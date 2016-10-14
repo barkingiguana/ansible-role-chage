@@ -1,0 +1,30 @@
+---
+driver:
+  name: docker
+
+provisioner:
+  hosts: test-kitchen
+  idempotency_test: true
+  name: ansible_playbook
+  requirements_path: requirements.yml
+  require_chef_for_busser: false
+  require_ruby_for_busser: false
+  role_name: barkingiguana.chage
+
+platforms:
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+  - name: ubuntu-16.04
+  - name: centos-7.2
+  - name: fedora-23
+
+suites:
+  - name: default
+    verifier:
+      default_path: test/integration/default/serverspec
+
+verifier:
+  name: serverspec
+  remote_exec: false
+  patterns:
+    - '**/*_spec.rb'

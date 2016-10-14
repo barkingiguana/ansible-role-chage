@@ -1,0 +1,13 @@
+---
+- hosts: all
+  tasks:
+    - name: Change the expiry information for root
+      become: yes
+      chage:
+        user: root
+        password_last_changed: '2016-06-01'
+        account_expires: false
+        inactive_days: 10
+        password_minimum_days: 1
+        password_maximum_days: 90
+        password_warn_days: 69
