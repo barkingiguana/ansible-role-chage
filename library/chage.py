@@ -45,7 +45,7 @@ EXAMPLES = '''
 import sys
 import glob
 import shlex
-import subprocess
+import os
 import json
 
 args_file = sys.argv[1]
@@ -68,12 +68,14 @@ for arg in args:
     # ignore any arguments without an equals in it
     if "=" in arg:
         (key, value) = arg.split("=")
-        if value != 'False':
-            if key == 'user':
-                user = value
-            else:
-                keyname = argnames.get(key, False)
-                if keyname != False:
+        if key == 'user':
+            user = value
+        else:
+            keyname = argnames.get(key, False)
+            if keyname != False:
+                if value == 'False':
+                    clargs[keyname] = '-1'
+                else:
                     clargs[keyname] = value
 
 if user == False:
@@ -83,15 +85,18 @@ if user == False:
     })
     sys.exit(1)
 
-chage_check = ["chage", "-l", user]
-before = subprocess.check_output(chage_check)
+def chage_check(user):
+  os.system('chage -l "%s" > tmp' % user)
+  return open('tmp', 'r').read()
+
+before = chage_check(user)
 
 arguments = list()
 for key, val in clargs.items():
     arguments.append("--%s %s" % (key, val))
 
 command = executable + ' ' + ' '.join(arguments) + ' ' + user
-rc = subprocess.call(command, shell=True)
+rc = os.system(command)
 
 if rc != 0:
     print json.dumps({
@@ -101,7 +106,7 @@ if rc != 0:
     })
     sys.exit(1)
 
-changed = before != subprocess.check_output(chage_check)
+changed = before != chage_check(user)
 
 print json.dumps({
     "changed": changed,
