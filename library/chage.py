@@ -47,6 +47,8 @@ import glob
 import shlex
 import os
 import json
+import random
+import string
 
 args_file = sys.argv[1]
 args_data = file(args_file).read()
@@ -86,8 +88,9 @@ if user == False:
     sys.exit(1)
 
 def chage_check(user):
-  os.system('chage -l "%s" > tmp' % user)
-  return open('tmp', 'r').read()
+  filename = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(32))
+  os.system('chage -l "%s" > %s' % (user, filename))
+  return open(filename, 'r').read()
 
 before = chage_check(user)
 
